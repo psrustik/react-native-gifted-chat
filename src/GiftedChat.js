@@ -353,6 +353,13 @@ class GiftedChat extends React.Component {
     let newComposerHeight = null;
     if (e.nativeEvent && e.nativeEvent.contentSize) {
       newComposerHeight = Math.max(MIN_COMPOSER_HEIGHT, Math.min(MAX_COMPOSER_HEIGHT, e.nativeEvent.contentSize.height));
+      //Android only.
+      //When you've got more then one line in Composer, e.nativeEvent.contentSize.height return less, then in fact
+      if (Platform.OS =='android') {
+        if (newComposerHeight>MIN_COMPOSER_HEIGHT && newComposerHeight<(MAX_COMPOSER_HEIGHT - 10)) {
+          newComposerHeight = newComposerHeight+10
+        }
+      }
     } else {
       newComposerHeight = MIN_COMPOSER_HEIGHT;
     }
