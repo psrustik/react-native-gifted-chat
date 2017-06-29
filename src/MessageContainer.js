@@ -3,6 +3,8 @@ import React from 'react';
 import {
   ListView,
   View,
+  StyleSheet,
+  Platform
 } from 'react-native';
 
 import shallowequal from 'shallowequal';
@@ -137,16 +139,14 @@ export default class MessageContainer extends React.Component {
 
   render() {
     return (
-      <View ref='container' style={{flex:1}}>
+      <View ref='container' style={[styles.invertAndroid, {flex: 1}]}>
         <ListView
           enableEmptySections={true}
           keyboardShouldPersistTaps={true}
           automaticallyAdjustContentInsets={false}
           initialListSize={20}
           pageSize={20}
-
           dataSource={this.state.dataSource}
-
           renderRow={this.renderRow}
           renderHeader={this.renderFooter}
           renderFooter={this.renderLoadEarlier}
@@ -156,6 +156,20 @@ export default class MessageContainer extends React.Component {
     );
   }
 }
+
+let styles = StyleSheet.create({
+  invertAndroid: Platform.select({
+    android: {
+      scaleY: -1,
+      transform: [
+        {
+          scaleY: -1,
+          perspective: 1280
+        },
+      ],
+    },
+  }),
+});
 
 MessageContainer.defaultProps = {
   messages: [],
